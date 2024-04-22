@@ -1,9 +1,11 @@
 package com.board.entity;
 
+import com.board.dto.MemberFormDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Table(name = "member")
@@ -25,4 +27,16 @@ public class Member {
 
     @Column(nullable = false)
     private String password;
+
+    public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+        String password = passwordEncoder.encode(memberFormDto.getPassword());
+
+        Member member = new Member();
+
+        member.setName(memberFormDto.getName());
+        member.setEmail(memberFormDto.getEmail());
+        member.setPassword(password);
+
+        return member;
+    }
 }
