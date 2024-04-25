@@ -18,9 +18,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/css/**", "/js/**", "/img/**", "/images/**", "/fonts/**").permitAll()
-                .requestMatchers("/", "/members/**", "/item/**").permitAll()
+                .requestMatchers("/", "/members/**", "/board/**").permitAll()
                 .requestMatchers("/favicon.ico", "/error").permitAll()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
         ).formLogin(formLogin -> formLogin
                 .loginPage("/members/login")

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>어렵다ㅠ</title>
+
+    <!-- 공통으로 사용할 CSS plugin -->
+    <!-- Stylesheets -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/slicknav.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/fresco.css}" />
+    <link rel="stylesheet" th:href="@{/css/slick.css}" />
+
+    <!-- 공통으로 사용할 커스터마이징 된 CSS -->
+    <!-- Main Stylesheets -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+    <!-- 각 페이지의 CSS가 작성될 위치 지정 -->
+    <th:block layout:fragment="css"></th:block>
+</head>
+<body>
+<div th:replace="fragments/header::header"></div>
+
+<div layout:fragment="content" class="content"></div>
+
+<!-- 공통으로 사용할 JS plugin -->
+<!--====== Javascripts & Jquery ======-->
+<script th:src="@{/js/vendor/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/jquery.slicknav.min.js}"></script>
+<script th:src="@{/js/slick.min.js}"></script>
+<script th:src="@{/js/fresco.min.js}"></script>
+
+<!-- 공통으로 사용할 커스터마이징 된 JS -->
+<script th:src="@{/js/main.js}"></script>
+
+<!-- 각 페이지의 JS가 작성될 위치 지정 -->
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>

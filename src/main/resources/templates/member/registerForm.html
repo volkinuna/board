@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/registerForm.css}" />
+    <style>
+        .fieldError {
+           color: #bd2130;
+        }
+    </style>
+</th:block>
+
+<div layout:fragment="content" style="height: 700px;">
+    <form action="/members/new" method="post" class="joinForm" th:object="${memberFormDto}">
+        <h2>Register</h2>
+        <div class="textForm">
+            <input th:field="*{email}" type="text" class="id" placeholder="Email" />
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="fieldError">Incorrect Data</p>
+        </div>
+        <div class="textForm">
+            <input th:field="*{password}" type="password" class="pw" placeholder="비밀번호" />
+            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="fieldError">Incorrect Data</p>
+        </div>
+        <div class="textForm">
+            <input th:field="*{name}" type="text" class="name" placeholder="이름" />
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="fieldError">Incorrect Data</p>
+        </div>
+        <input type="submit" class="btn" value="J O I N"/>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    </form>
+</div>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        var errorMessage = [[${errorMessage}]]
+
+        if (errorMessage != null) alert(errorMessage);
+    </script>
+</th:block>
+
+</html>

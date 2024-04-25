@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/loginLayout}">
+
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/loginForm.css}" />
+    <style>
+        .error {
+           color: #bd2130;
+        }
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+    <div class="container">
+        <div class="screen">
+            <div class="screen__content">
+                <form action="/members/login" method="post" class="login">
+                    <div class="login__field">
+                        <i th:for="email" class="login__icon fas fa-user"></i>
+                        <input type="text" class="login__input" placeholder="Email">
+                    </div>
+                    <div class="login__field">
+                        <i th:for="password" class="login__icon fas fa-lock"></i>
+                        <input type="password" class="login__input" placeholder="Password">
+                    </div>
+                    <button type="submit" class="button login__submit">
+                        <span class="button__text">Log In Now</span>
+                        <i class="button__icon fas fa-chevron-right"></i>
+                    </button>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                </form>
+                <div class="social-login">
+                    <a th:href="@{/members/new}">
+                        <h3>Register</h3>
+                    </a>
+                </div>
+            </div>
+            <div class="screen__background">
+                <span class="screen__background__shape screen__background__shape4"></span>
+                <span class="screen__background__shape screen__background__shape3"></span>
+                <span class="screen__background__shape screen__background__shape2"></span>
+                <span class="screen__background__shape screen__background__shape1"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="script">
+    <script type="text/javascript" th:src="@{/js/cookie.js}"></script>
+    <script th:inline="javascript">
+        //1. 쿠키값이 있는지 확인하기
+var userInputId = getCookie("userInputId"); //쿠키값(이메일주소)을 가져온다.
+var setCookieYN = getCookie("setCookieYN"); //쿠키값(이메일 저장 여부)을 가져온다.
+
+if(setCookieYN == 'Y') { //이메일 저장 여부가 Y면
+    $("#id_save").prop("checked", true); //이메일 저장 체크박스를 체크한다
+    $("#email").val(userInputId); //이메일 input창에는 쿠키에서 가져온 이메일 주소를 넣는다.
+} else {
+    $("#id_save").prop("checked", false);
+}
+
+//2. 로그인 버튼 클릭시 쿠키에 이메일 저장여부, 이메일 저장
+$("#loginbtn").click(function(){
+
+    if($("#id_save").is(":checked")) { //이메일 저장에 체크가 되어있다면
+        var userInputId = $("#email").val(); //이메일 값을 가지고 온다.
+
+        //쿠키 생성
+        setCookie("userInputId", userInputId, 60); //이메일 저장
+        setCookie("setCookieYN", "Y", 60); //이메일 저장 여부를 저장
+    } else {
+        //쿠키 삭제
+        deleteCookie("userInputId");
+        deleteCookie("setCookieYN");
+    }
+});
+    </script>
+</th:block>
+
+</html>

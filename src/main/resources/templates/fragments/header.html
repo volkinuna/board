@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<header class="header" th:fragment="header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4 col-md-3 order-2 order-sm-1">
+                <div class="header__social">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-6 order-1 order-md-2 text-center">
+                <a href="./index.html" class="site-logo">
+                    <img src="img/logo.png" alt="" />
+                </a>
+            </div>
+            <div class="col-sm-4 col-md-3 order-3 order-sm-3">
+                <div class="header__switches">
+                    <a href="#" class="search-switch"
+                    ><i class="fa fa-search"></i
+                    ></a>
+                    <a href="#" class="nav-switch"
+                    ><i class="fa fa-bars"></i
+                    ></a>
+                    <a href="#"><i class="fa fa-shopping-cart"></i></a>
+                </div>
+            </div>
+        </div>
+        <nav class="main__menu">
+            <ul class="nav__menu">
+                <li><a href="/" class="menu--active">Home</a></li>
+                <li><a href="./about.html">About</a></li>
+                <!--/* sec:authorize="isAuthenticated()" => 로그인한 경우 보여준다. */-->
+                <li><a href="./gallery.html" sec:authorize="isAuthenticated()">Gallery</a></li>
+                <li>
+                    <a href="./blog.html" sec:authorize="isAuthenticated()">Blog</a>
+                    <ul class="sub__menu">
+                        <li><a href="./blog-single.html">Blog Single</a></li>
+                    </ul>
+                </li>
+                <!--/* sec:authorize="isAnonymous()" => 로그인 하지 않은 경우 true, 로그인하면 보여주지 않는다. */-->
+                <li><a href="/members/login" sec:authorize="isAnonymous()">Login</a></li>
+                <li><a href="/members/logout" sec:authorize="isAuthenticated()">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+</html>
