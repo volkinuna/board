@@ -17,11 +17,11 @@
                 <form action="/members/login" method="post" class="login">
                     <div class="login__field">
                         <i th:for="email" class="login__icon fas fa-user"></i>
-                        <input type="text" class="login__input" placeholder="Email">
+                        <input type="text" class="login__input" placeholder="Email" name="email">
                     </div>
                     <div class="login__field">
                         <i th:for="password" class="login__icon fas fa-lock"></i>
-                        <input type="password" class="login__input" placeholder="Password">
+                        <input type="password" class="login__input" placeholder="Password" name="password">
                     </div>
                     <button type="submit" class="button login__submit">
                         <span class="button__text">Log In Now</span>

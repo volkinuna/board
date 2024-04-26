@@ -12,17 +12,18 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-public class Board {
+public class Board extends BaseEntity {
 
     @Id
     @Column(name = "board_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
     @Lob
-    @Column(columnDefinition = "longtext")
+    @Column(nullable = false, columnDefinition = "longtext")
     private String content;
 
     private LocalDateTime regDate;
