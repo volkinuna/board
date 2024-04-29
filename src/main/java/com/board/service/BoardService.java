@@ -7,6 +7,7 @@ import com.board.entity.Board;
 import com.board.entity.Member;
 import com.board.repository.BoardRepository;
 import com.board.repository.MemberRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -46,10 +51,23 @@ public class BoardService {
         return userId;
     }
 
-    public Page<BoardListDto> getBoardListPage(SearchDto searchDto, Pageable pageable) {
+    public Page<BoardListDto> getBoardListPage(Pageable pageable) {
         Page<BoardListDto> boardListPage =
-                boardRepository.getBoardListPage(searchDto, pageable);
+                boardRepository.getBoardListPage(pageable);
 
         return boardListPage;
+    }
+
+    @Transactional(readOnly = true)
+    public WriteFormDto getBlogDtl(Long boardId) {
+
+        Board board = boardRepository.findById(boardId).orElseThrow(EntityNotFoundException::new);
+
+        WriteFormDto writeFormDto = WriteFormDto.of(board);
+
+        writeFormDto.setName(board.getMember().getName());
+        writeFormDto.setRegDate(board.getRegTime());
+
+        return writeFormDto;
     }
 }

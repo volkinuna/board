@@ -33,4 +33,5 @@ public class Board extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
 }

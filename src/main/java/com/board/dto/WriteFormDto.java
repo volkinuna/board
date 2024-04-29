@@ -25,6 +25,8 @@ public class WriteFormDto {
 
     private LocalDateTime updateDate;
 
+    private String name;
+
     private static ModelMapper modelMapper = new ModelMapper();
 
     public Board createBoard() {

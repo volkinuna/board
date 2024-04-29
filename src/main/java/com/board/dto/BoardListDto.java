@@ -13,16 +13,16 @@ public class BoardListDto {
     private Long id;
     private String title;
     private String name;
-    private LocalDateTime regDate;
-    private LocalDateTime updateDate;
+    private LocalDateTime regTime;
+    private LocalDateTime updateTime;
 
     @QueryProjection
     public BoardListDto(Long id, String title, String name,
-                        LocalDateTime regDate, LocalDateTime updateDate) {
+                        LocalDateTime regTime, LocalDateTime updateTime) {
         this.id = id;
         this.title = title;
         this.name = name;
-        this.regDate = regDate;
-        this.updateDate = updateDate;
+        this.regTime = regTime;
+        this.updateTime = updateTime;
     }
 }

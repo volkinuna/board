@@ -3,6 +3,7 @@ package com.board.repository;
 import com.board.dto.BoardListDto;
 import com.board.dto.QBoardListDto;
 import com.board.dto.SearchDto;
+import com.board.dto.WriteFormDto;
 import com.board.entity.QBoard;
 import com.board.entity.QMember;
 import com.querydsl.core.types.dsl.Wildcard;
@@ -23,7 +24,7 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public Page<BoardListDto> getBoardListPage(SearchDto SearchDto, Pageable pageable) {
+    public Page<BoardListDto> getBoardListPage(Pageable pageable) {
         /*
           select board.id, board.title, member.name, board.reg_date, board.update_date
           from board, member
