@@ -15,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.StringUtils;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -69,5 +71,41 @@ public class BoardService {
         writeFormDto.setRegDate(board.getRegTime());
 
         return writeFormDto;
+    }
+
+    //update
+    public Long updateBlog(WriteFormDto writeFormDto) throws Exception {
+
+        Board board = boardRepository.findById(writeFormDto.getId()).orElseThrow(EntityNotFoundException::new);
+
+        //update 실행
+        board.updateBoard(writeFormDto);
+
+        return board.getId();
+    }
+
+    @Transactional(readOnly = true)
+    public boolean validateBlog(Long BoardId, String email) {
+
+        Member curMember = memberRepository.findByEmail(email);
+
+        Board board = boardRepository.findById(BoardId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        Member savedMember = board.getMember();
+
+        if (!StringUtils.equals(curMember.getEmail(), savedMember.getEmail())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    //delete
+    public void deleteBlog(Long BoardId) {
+        Board board = boardRepository.findById(BoardId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        boardRepository.delete(board); //deletes
     }
 }

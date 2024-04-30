@@ -2,6 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
 
 <main layout:fragment="content" class="main">
     <section class="single-block-wrapper section-padding">
@@ -44,8 +48,8 @@
 
                                 <!-- 로그인(세션)한 member_id와 post의 memberId가 같다면 수정, 삭제 버튼을 보여준다. -->
                                 <div class="list-posts-share">
-                                    <a style="cursor:pointer;">수정</a>
-                                    <a style="cursor:pointer;">삭제</a>
+                                    <a th:href="'/board/modify/' + ${boardId}" style="cursor:pointer;">수정</a>
+                                    <a th:onclick="'deleteBlog(' + ${boardId} + ')'" style="cursor:pointer;">삭제</a>
                                 </div>
                             </div>
                         </div>
@@ -120,7 +124,49 @@
 </main>
 
 <th:block layout:fragment="script">
-    <script th:inline="javascript"></script>
+    <script th:inline="javascript">
+        //delete
+        function deleteBlog(boardId) {
+            const deleteConf = confirm("삭제 하시겠습니까?");
+            if (!deleteConf) return; //삭제 버튼 선택시
+
+            var token = $("meta[name='_csrf']").attr("content"); //token의 실제 값
+            var header = $("meta[name='_csrf_header']").attr("content"); //token의 name
+
+            console.log(boardId);
+
+            $.ajax({
+				url : "/board/" + boardId + "/delete",
+				type : "DELETE",
+				contentType : "application/json",
+				beforeSend : function(xhr) {
+                    xhr.setRequestHeader(header, token);
+				},
+				dataType : "json",
+				cache : false,
+				success : function(result, status) {
+				    var path = location.pathname;
+
+				    var page = path.substring(path.lastIndexOf("/") + 1);
+
+				    //사이트 new 메뉴를 클릭하고 들어왔을때를 대비(ex. '/order'의 경우)
+				    if (page == 'boardList') {
+				        page = 0;
+				    }
+
+				    location.href = '/board/blog';
+				},
+				error : function(jqXHR, status, error) {
+				    if(jqXHR.status == '401') {
+                        alert('로그인 후 이용해주세요.');
+                        location.href = '/members/login';
+                    } else {
+                        alert(jqXHR.responseText);
+                    }
+				}
+			});
+        }
+    </script>
 </th:block>
 
 </html>

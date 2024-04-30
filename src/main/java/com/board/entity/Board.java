@@ -1,5 +1,6 @@
 package com.board.entity;
 
+import com.board.dto.WriteFormDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,4 +35,9 @@ public class Board extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    //엔티티 수정
+    public void updateBoard(WriteFormDto writeFormDto) {
+        this.title = writeFormDto.getTitle();
+        this.content = writeFormDto.getContent();
+    }
 }
